@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.alfresco</groupId>
+  <artifactId>jlan</artifactId>
+  <versioning>
+    <release>r55007</release>
+    <versions>
+      <version>r55007</version>
+    </versions>
+    <lastUpdated>20140109102244</lastUpdated>
+  </versioning>
+</metadata>
