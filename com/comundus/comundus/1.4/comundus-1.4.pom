@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.comundus</groupId>
+    <artifactId>comundus</artifactId>
+    <packaging>pom</packaging>
+    <name>comundus Vorgaben</name>
+    <version>1.4</version>
+    <description>comundus defaults</description>
+    <url>http://10.0.1.201/comundus</url>
+
+    <issueManagement>
+        <system>Mantis</system>
+        <url>http://mantis.comundus.com</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>comundus license</name>
+            <url>LICENSE.txt</url>
+            <distribution/>
+            <comments/>
+        </license>
+    </licenses>
+
+    <scm>
+        <!-- connection></connection -->
+        <developerConnection>scm:svn:http://subversion/svn/libs/pom/comundus/trunk</developerConnection>
+        <url>http://subversion/svn/libs/pom/comundus/trunk</url>
+        <tag/>
+    </scm>
+
+    <organization>
+		<name>comundus GmbH</name>
+		<url>http://www.comundus.com/</url>
+	</organization>
+    <build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+	            <plugin>
+	                <artifactId>maven-compiler-plugin</artifactId>
+	                <version>3.1</version>
+	            </plugin>
+	            <plugin>
+                	<artifactId>maven-antrun-plugin</artifactId>
+                	<version>1.3</version>
+            	</plugin>
+	            <plugin>
+                	<artifactId>maven-clean-plugin</artifactId>
+                	<version>2.5</version>
+            	</plugin>
+	            <plugin>
+                	<artifactId>maven-deploy-plugin</artifactId>
+                	<version>2.7</version>
+            	</plugin>
+	            <plugin>
+                	<artifactId>maven-install-plugin</artifactId>
+                	<version>2.4</version>
+            	</plugin>
+	            <plugin>
+                	<artifactId>maven-jar-plugin</artifactId>
+                	<version>2.4</version>
+            	</plugin>
+	            <plugin>
+                	<artifactId>maven-resources-plugin</artifactId>
+                	<version>2.6</version>
+            	</plugin>
+	            <plugin>
+                	<artifactId>maven-surefire-plugin</artifactId>
+                	<version>2.15</version>
+            	</plugin>
+	            <plugin>	            
+	            	<groupId>org.codehaus.mojo</groupId>
+                	<artifactId>versions-maven-plugin</artifactId>
+                	<version>2.0</version>
+            	</plugin>
+            	<!-- Reporting -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+	            	<version>3.3</version>
+			        <dependencies>
+			        	<dependency><!-- add support for ssh/scp -->
+			            	<groupId>org.apache.maven.wagon</groupId>
+			            	<artifactId>wagon-ssh</artifactId>
+			            	<version>2.2</version>
+			           	</dependency>
+			        </dependencies>
+					<configuration>
+						<locales>en</locales>
+						<reportPlugins>
+							<!-- project-info-reports - Manage site info part creation -->
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-project-info-reports-plugin</artifactId>
+								<version>2.7</version>							
+								<configuration>
+									<dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+									<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+									<offline>false</offline>
+								</configuration>
+								<reportSets>
+									<reportSet>
+										<reports>
+											<report>index</report>
+											<report>summary</report> 
+											<report>dependencies</report>
+											<report>issue-tracking</report>
+											<report>project-team</report>
+										</reports>
+									</reportSet>
+								</reportSets>
+							</plugin>
+							<!-- project-surefire-report - Unit tests report -->
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-surefire-report-plugin</artifactId>
+								<version>2.15</version>
+							</plugin>
+							<!-- javadoc -->
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-javadoc-plugin</artifactId>
+	                			<version>2.8.1</version>
+								<configuration>
+									<additionalJOption>-J-Xmx128m</additionalJOption>
+									<failOnError>false</failOnError>
+								</configuration>
+						        <reportSets>
+						          <reportSet>
+						            <id>non-aggregate</id>
+						            <reports>
+						              <report>javadoc</report>
+						            </reports>
+						          </reportSet>
+						          <reportSet>
+						            <id>aggregate</id>
+						            <reports>
+						              <report>aggregate</report>
+						            </reports>
+						          </reportSet>
+						        </reportSets>
+						    </plugin>
+	   						<!-- changes - changes report -->
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-changes-plugin</artifactId>
+								<version>2.9</version>
+						        <reportSets>
+						          <reportSet>
+						            <reports>
+						              <report>changes-report</report>
+						            </reports>
+						          </reportSet>
+						        </reportSets>
+						        <configuration>
+						        	<issueLinkTemplatePerSystem>
+						        		<!-- The default ignores issueManagement/url -->
+					        			<Mantis>http://mantis.comundus.com/view.php?id=%ISSUE%</Mantis>
+						        	</issueLinkTemplatePerSystem>
+						          	<issueManagementSystems>
+						            	<issueManagementSystem>changes.xml</issueManagementSystem>
+						          	</issueManagementSystems>
+						        </configuration>
+							</plugin>
+							<!-- cobertura - Code coverage report -->
+							<plugin>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>cobertura-maven-plugin</artifactId>
+	                			<version>2.5.2</version>
+							</plugin>
+							<!-- findbugs - searches potential bugs -->
+				           	<plugin>
+				               <groupId>org.codehaus.mojo</groupId>
+				               <artifactId>findbugs-maven-plugin</artifactId>
+				               <version>2.5.2</version>
+								<configuration>
+									<xmlOutput>true</xmlOutput>
+									<effort>Max</effort>
+								</configuration>
+				           	</plugin>
+				            <plugin>
+				                <groupId>org.apache.maven.plugins</groupId>
+				                <artifactId>maven-checkstyle-plugin</artifactId>
+				                <version>2.10</version>
+				                <configuration>
+				                    <configLocation>${basedir}/../parent/src/checkstyle/checkstyle.xml</configLocation>
+				                </configuration>
+				            </plugin> 
+				            <plugin>
+				                <groupId>org.apache.maven.plugins</groupId>
+					            <artifactId>maven-pmd-plugin</artifactId>
+					            <version>3.0.1</version>    
+				                <configuration>
+				                	<aggregate>true</aggregate>
+				                    <rulesets>
+				                        <ruleset>${basedir}/../parent/src/pmd/pmd.xml</ruleset>
+				                    </rulesets>
+				                </configuration>
+				                <reportSets>
+				                    <reportSet>
+				                        <reports>
+				                            <report>pmd</report>
+				                        </reports>
+				                    </reportSet>
+				                </reportSets>
+				            </plugin>            
+				           	<!--  == END REPORT PLUGINS == -->
+						</reportPlugins>
+					</configuration>
+					<!-- 
+					<executions>
+						<execution>
+							<id>attach-descriptor</id>
+							<goals>
+								<goal>attach-descriptor</goal>
+							</goals>
+						</execution>
+					</executions>
+					 -->
+				</plugin>            	            	
+			</plugins>
+		</pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.3</version>                
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>artifactory</id>
+            <name>comundus Artifactory</name>
+            <url>http://mavenproxy:8081/artifactory/comundus-public</url>
+        </repository>
+        <snapshotRepository>
+            <id>artifactory-snapshots</id>
+            <name>comundus Artifactory-snapshots</name>
+            <url>http://mavenproxy:8081/artifactory/comundus-private</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <!-- Local deploy: deploys an artifact in a repository in the local system. The repository
+         folder may not exist yet.         
+      Example use: mvn deploy -Drepo.path=c:/path/to/my/repo
+     -->
+    <profiles>
+    	<profile>
+    		<id>local-deploy</id>
+    		<activation>
+    			<property>
+    				<name>repo.path</name>
+    			</property>
+    		</activation>
+    		<distributionManagement>
+    			<repository>
+    				<id>internal.repo</id>
+    				<name>Repository in local machine</name>
+    				<url>file://${repo.path}</url>
+    			</repository>
+    		</distributionManagement>
+    	</profile>
+    </profiles>    
+</project>
