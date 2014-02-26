@@ -82,18 +82,10 @@
                 	<artifactId>versions-maven-plugin</artifactId>
                 	<version>2.0</version>
             	</plugin>
+            	
             	<!-- Reporting -->
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
-	            	<version>3.3</version>
-			        <dependencies>
-			        	<dependency><!-- add support for ssh/scp -->
-			            	<groupId>org.apache.maven.wagon</groupId>
-			            	<artifactId>wagon-ssh</artifactId>
-			            	<version>2.2</version>
-			           	</dependency>
-			        </dependencies>
 					<configuration>
 						<locales>en</locales>
 					</configuration>
@@ -108,45 +100,56 @@
 					</executions>
 					 -->
 				</plugin>
-	<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.8</version>
-        <executions>
-          <execution>
-            <id>copy-common-config</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.comundus</groupId>
-                  <artifactId>comundus</artifactId>
-                  <version>${defaults.version}</version>
-                  <type>xml</type>
-                  <classifier>checkstyle</classifier>
-                  <overWrite>true</overWrite>                  
-                  <destFileName>checkstyle.xml</destFileName>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>com.comundus</groupId>
-                  <artifactId>comundus</artifactId>
-                  <version>${defaults.version}</version>
-                  <type>xml</type>
-                  <classifier>pmd</classifier>
-                  <overWrite>true</overWrite>                  
-                  <destFileName>pmd.xml</destFileName>
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>generated/commonconfig</outputDirectory>
-              <overWriteReleases>true</overWriteReleases>
-              <overWriteSnapshots>true</overWriteSnapshots>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+				<plugin>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.8</version>
+					<executions>
+						<execution>
+							<id>copy-common-config</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>copy</goal>
+							</goals>
+							<configuration>
+								<artifactItems>
+									<artifactItem>
+										<groupId>com.comundus</groupId>
+										<artifactId>comundus</artifactId>
+										<version>${defaults.version}</version>
+										<type>xml</type>
+										<classifier>checkstyle</classifier>
+										<overWrite>true</overWrite>
+										<destFileName>checkstyle.xml</destFileName>
+									</artifactItem>
+									<artifactItem>
+										<groupId>com.comundus</groupId>
+										<artifactId>comundus</artifactId>
+										<version>${defaults.version}</version>
+										<type>xml</type>
+										<classifier>pmd</classifier>
+										<overWrite>true</overWrite>
+										<destFileName>pmd.xml</destFileName>
+									</artifactItem>
+								</artifactItems>
+								<outputDirectory>generated/commonconfig</outputDirectory>
+								<overWriteReleases>true</overWriteReleases>
+								<overWriteSnapshots>true</overWriteSnapshots>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+	            	<version>3.3</version>
+			        <dependencies>
+			        	<dependency><!-- add support for ssh/scp -->
+			            	<groupId>org.apache.maven.wagon</groupId>
+			            	<artifactId>wagon-ssh</artifactId>
+			            	<version>2.2</version>
+			           	</dependency>
+			        </dependencies>
+				</plugin>
 			</plugins>	
 		</pluginManagement>
         <plugins>
@@ -226,9 +229,7 @@
 							</plugin>
 							<!-- project-surefire-report - Unit tests report -->
 							<plugin>
-								<groupId>org.apache.maven.plugins</groupId>
 								<artifactId>maven-surefire-report-plugin</artifactId>
-								<version>2.15</version>
 							</plugin>
 							<!-- javadoc -->
 							<plugin>
@@ -313,9 +314,9 @@
 				                <configuration>
 				                	<aggregate>true</aggregate>
 				                    <rulesets>
-				                        <ruleset>${basedir}/../parent/src/pmd/pmd.xml</ruleset>
+				                        <ruleset>generated/commonconfig/pmd.xml</ruleset>
 				                    </rulesets>
-				                </configuration>				                
+				                </configuration>
 				                <reportSets>
 				                    <reportSet>
 				                        <reports>
