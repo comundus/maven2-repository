@@ -13,13 +13,13 @@ The following profile has to be defined in `~/.m2/settings.xml` or `pom.xml`
     				<name>repo.path</name>
     			</property>
     		</activation>
-    		<distributionManagement>
+    		<repositories>
     			<repository>
     				<id>internal.repo</id>
     				<name>Repository in local machine</name>
     				<url>file://${repo.path}</url>
     			</repository>
-    		</distributionManagement>
+    		</repositories>
     	</profile>
 
 Example. For:
