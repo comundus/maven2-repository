@@ -47,13 +47,13 @@ If the contents have been pushed to GitHub, it will be available configuring the
 		<repositories>
 			<repository>
 				<id>maven-vfs-plugin-github</id>
-				<url>https://raw.github.com/comundus/maven2-repository/master</url>
+				<url>https://comundus.github.io/maven2-repository</url>
 			</repository>
 		</repositories>
 		<pluginRepositories>
 			<pluginRepository>
 				<id>maven-vfs-plugin-github</id>
-				<url>https://raw.github.com/comundus/maven2-repository/master</url>
+				<url>https://comundus.github.io/maven2-repository</url>
 				<snapshots>
 					<enabled>false</enabled>
 				</snapshots>
