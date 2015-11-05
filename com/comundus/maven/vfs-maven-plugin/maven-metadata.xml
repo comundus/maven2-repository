@@ -3,8 +3,8 @@
   <groupId>com.comundus.maven</groupId>
   <artifactId>vfs-maven-plugin</artifactId>
   <versioning>
-    <latest>9.5.2</latest>
-    <release>9.5.2</release>
+    <latest>9.5.2a</latest>
+    <release>9.5.2a</release>
     <versions>
       <version>8.5.1</version>
       <version>8.5.2</version>
@@ -13,7 +13,8 @@
       <version>9.0.1b</version>
       <version>9.5.1</version>
       <version>9.5.2</version>
+      <version>9.5.2a</version>
     </versions>
-    <lastUpdated>20150729135609</lastUpdated>
+    <lastUpdated>20151105095859</lastUpdated>
   </versioning>
 </metadata>
