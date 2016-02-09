@@ -36,6 +36,10 @@ Call:
 
 The file deploy-file-to-github.launch can be imported in the Eclipse IDE launch configurations to help with this procedure.
 
+To deploy the current project, call:
+
+    mvn deploy -Drepo.path=c:/maven2-repository -DrepositoryId=internal.repo
+
 To use  this repository
 -----------------------
 
