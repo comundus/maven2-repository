@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>buildnumber-maven-plugin</artifactId>
+  <versioning>
+    <latest>1.4.1-comundus</latest>
+    <release>1.4.1-comundus</release>
+    <versions>
+      <version>1.3-comundus</version>
+      <version>1.4.1-comundus</version>
+    </versions>
+    <lastUpdated>20160217164030</lastUpdated>
+  </versioning>
+</metadata>
