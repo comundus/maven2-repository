@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+<build>
+</build>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <release.opencmsBase>${basedir}/webapp/target/webapp/WEB-INF</release.opencmsBase>
+                <release.webappLibCP>${release.opencmsBase}/lib/*</release.webappLibCP>
+                <release.tomcatLibCP>target/servletlib/*</release.tomcatLibCP>
+                <release.webappClassesDir>${release.opencmsBase}/classes</release.webappClassesDir>
+                <release.cmsShellScript>src/release-scripts/release-${project.version}/exportopencms-commands.txt</release.cmsShellScript>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-servlet-jars</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>javax.servlet</groupId>
+                                            <artifactId>javax.servlet-api</artifactId>
+                                            <version>${servlet.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>javax.servlet.jsp</groupId>
+                                            <artifactId>javax.servlet.jsp-api</artifactId>
+                                            <version>${jsp.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}/servletlib</outputDirectory>
+                                    <overWriteReleases>false</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                      <groupId>org.codehaus.gmaven</groupId>
+                      <artifactId>groovy-maven-plugin</artifactId>
+                      <executions>
+                        <execution>
+                          <id>generate-cmsshell-script</id>
+                          <phase>generate-sources</phase>
+                          <goals>
+                            <goal>execute</goal>
+                          </goals>
+                          <configuration>
+                          
+                            <properties>
+                              <basedir>${basedir}</basedir>
+                              <projectVersion>${project.version}</projectVersion>
+                            </properties>
+                            <scriptpath>${basedir}/src/release-scripts/groovy</scriptpath>
+                            <source>
+                              import java.io.File;
+                              releaseConfig = properties.basedir + '/src/release-scripts/release-' + properties.projectVersion
+                              exportDef =  releaseConfig + '/ExportDefinition.groovy';
+                              targetFile = releaseConfig + '/exportopencms-commands.txt'
+                              OpenCmsExport.setTargetFile(targetFile)
+                              OpenCmsExport.startScript('comundus Webrelaunch 2016. Version ' + properties.projectVersion)
+                              evaluate(new File(exportDef))
+                              OpenCmsExport.finishScript()
+                            </source>
+                          </configuration>
+                        </execution>
+                      </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>package-war</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                  <goal>war</goal>
+                                </goals>
+                                <configuration>
+                                    <warSourceDirectory>${basedir}/webapp/target/webapp</warSourceDirectory>
+                                    <primaryArtifact>false</primaryArtifact>
+                                    <warSourceExcludes>admin.jsp</warSourceExcludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>assembly-release</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>directory-single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <finalName>opencms</finalName>
+                            <descriptors>
+                                <descriptor>src/release-scripts/release-${project.version}/release-assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <id>export-opencms</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${java.home}/bin/java</executable>
+                                    <arguments>
+                                        <argument>-classpath</argument>
+                                        <argument>"${release.webappLibCP}${path.separator}${release.tomcatLibCP}${path.separator}${release.webappClassesDir}"</argument>
+                                        <argument>org.opencms.main.CmsShell</argument>
+                                        <argument>-base=${release.opencmsBase}</argument>
+                                        <argument>-script=${release.cmsShellScript}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                               <id>prepare-tree</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="target/opencms-release/opencms/db-export" />
+                                    </target>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-modules</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <!-- Export files -->
+                                        <copy todir="target/opencms-release/opencms" >
+                                            <fileset dir="${release.opencmsBase}/packages/modules" includes="*.zip"/>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+                            <!--
+                                copy comundus and customer jars and remove version number
+                                comment in, if customer wants it and change/add the included files names
+                            -->
+                            <!--execution>
+                                <id>rename-jars</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <copy toDir="target/opencms-release-${project.version}/webapp/WEB-INF/lib">
+                                            <fileset dir="../webapp/target/webapp/WEB-INF/lib"
+                                                     includes="*com.customer.project.module.*-${project.version}.jar,*com.comundus.*-${project.version}.jar"
+                                            />
+                                            <globmapper from="*-${project.version}.jar" to="*.jar"/>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution-->
+                            <execution>
+                                <id>zip-release</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <!--  Zips release directory and renames it afterwards -->
+                                        <zip destfile="target/opencms-release-${project.version}.zip" basedir="target/opencms-release" encoding="UTF8" />
+                                        <move file="target/opencms-release" tofile="target/opencms-release-${project.version}"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>ant-contrib</groupId>
+                                <artifactId>ant-contrib</artifactId>
+                                <version>1.0b3</version>
+                                <exclusions>
+                                    <exclusion>
+                                        <groupId>ant</groupId>
+                                        <artifactId>ant</artifactId>
+                                    </exclusion>
+                                </exclusions>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
