@@ -10,7 +10,8 @@
                 <release.webappLibCP>${release.opencmsBase}/lib/*</release.webappLibCP>
                 <release.tomcatLibCP>target/servletlib/*</release.tomcatLibCP>
                 <release.webappClassesDir>${release.opencmsBase}/classes</release.webappClassesDir>
-                <release.cmsShellScript>src/release-scripts/release-${project.version}/exportopencms-commands.txt</release.cmsShellScript>
+                <release.dir>src/release-scripts/release-${project.version}</release.dir>
+                <release.cmsShellScript>${release.dir}/exportopencms-commands.txt</release.cmsShellScript>
             </properties>
             <build>
                 <plugins>
@@ -38,6 +39,12 @@
                                             <artifactId>javax.servlet.jsp-api</artifactId>
                                             <version>${jsp.version}</version>
                                             <type>jar</type>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>${jdbcDriver.groupId}</groupId>
+                                            <artifactId>${jdbcDriver.artifactId}</artifactId>
+                                            <version>${jdbcDriver.version}</version>
                                             <overWrite>false</overWrite>
                                         </artifactItem>
                                     </artifactItems>
@@ -100,19 +107,20 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.0.0</version>
                         <executions>
                             <execution>
                                 <id>assembly-release</id>
                                 <phase>compile</phase>
                                 <goals>
-                                    <goal>directory-single</goal>
+                                    <goal>single</goal>
                                 </goals>
                             </execution>
                         </executions>
                         <configuration>
                             <finalName>opencms</finalName>
                             <descriptors>
-                                <descriptor>src/release-scripts/release-${project.version}/release-assembly.xml</descriptor>
+                                <descriptor>${release.dir}/release-assembly.xml</descriptor>
                             </descriptors>
                         </configuration>
                     </plugin>
@@ -168,6 +176,9 @@
                                         <copy todir="target/opencms-release/opencms" >
                                             <fileset dir="${release.opencmsBase}/packages/modules" includes="*.zip"/>
                                         </copy>
+                                        <copy todir="target/opencms-release/opencms" >
+                                            <fileset dir="${release.opencmsBase}/packages" includes="*.zip"/>
+                                        </copy>
                                     </target>
                                 </configuration>
                             </execution>
@@ -201,8 +212,8 @@
                                 <configuration>
                                     <target>
                                         <!--  Zips release directory and renames it afterwards -->
-                                        <zip destfile="target/opencms-release-${project.version}.zip" basedir="target/opencms-release" encoding="UTF8" />
-                                        <move file="target/opencms-release" tofile="target/opencms-release-${project.version}"/>
+                                        <zip destfile="target/${opencms-release-tile.filePrefix}-release-${project.version}-r${buildNumber}.zip" basedir="target/opencms-release" encoding="UTF8" />
+                                        <move file="target/opencms-release" tofile="target/${opencms-release-tile.filePrefix}-release-${project.version}-r${buildNumber}"/>
                                     </target>
                                 </configuration>
                             </execution>
