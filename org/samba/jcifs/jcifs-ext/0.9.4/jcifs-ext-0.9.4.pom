@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.samba.jcifs</groupId>
+  <artifactId>jcifs-ext</artifactId>
+  <version>0.9.4</version>
+  <description>
+    There is no jcifs-ext-0.9-4.pom in the repositories:
+    - Maven Central
+    - jcenter
+    - Jasig (http://developer.jasig.org/repo/content/groups/m2-legacy/)
+    
+    In Jasig there is the file jcifs-ext-0.9.4.jar
+    
+    This file was created to be uploaded to the comundus Maven repository in GitHub (https://github.com/comundus/maven2-repository)
+  </description>
+  
+    <!-- Local deploy: deploys an artifact in a repository in the local system. The repository
+         folder may not exist yet.         
+      Example use: mvn deploy -Drepo.path=c:/path/to/my/repo
+     -->
+    <profiles>
+        <profile>
+            <id>local-deploy</id>
+            <activation>
+                <property>
+                    <name>repo.path</name>
+                </property>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>internal.repo</id>
+                    <name>Repository in local machine</name>
+                    <url>file://${repo.path}</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+</project>
