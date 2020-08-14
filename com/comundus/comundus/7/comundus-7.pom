@@ -42,7 +42,7 @@
         <url>https://www.comundus.com/</url>
     </organization>
     <properties>
-        <defaults.version>6</defaults.version><!-- This must be kept up to 
+        <defaults.version>7</defaults.version><!-- This must be kept up to 
             date with the project version manually -->
     </properties>
     <build>
