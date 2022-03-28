@@ -3,7 +3,7 @@
   <groupId>com.comundus</groupId>
   <artifactId>comundus</artifactId>
   <versioning>
-    <release>7</release>
+    <release>8</release>
     <versions>
       <version>1.2</version>
       <version>1.1</version>
@@ -13,7 +13,8 @@
       <version>5</version>
       <version>6</version>
       <version>7</version>
+      <version>8</version>
     </versions>
-    <lastUpdated>20200814092101</lastUpdated>
+    <lastUpdated>20220328112547</lastUpdated>
   </versioning>
 </metadata>
