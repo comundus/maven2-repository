@@ -41,6 +41,7 @@
     </organization>
     <properties>
         <defaults.version>9</defaults.version><!-- This must be kept up to date with the project version manually -->
+        <sonar.coverage.jacoco.xmlReportPaths>**/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <build>
         <pluginManagement>
@@ -198,13 +199,14 @@
                     <version>0.8.8</version>
                     <executions>
                         <execution>
+                            <id>prepare-agent</id>
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
                         </execution>
                         <execution>
                             <id>report</id>
-                            <phase>prepare-package</phase>
+                            <phase>verify</phase>
                             <goals>
                                 <goal>report</goal>
                             </goals>
@@ -392,18 +394,18 @@
                     </reportSet>
                 </reportSets>
             </plugin>
-            <plugin>
+           <!-- <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <reportSets>
                   <reportSet>
                     <reports>
-                      <!-- select non-aggregate reports -->
+                       select non-aggregate reports
                       <report>report</report>
                     </reports>
                   </reportSet>
                 </reportSets>
-            </plugin>
+            </plugin> -->
         </plugins>
     </reporting>
 
