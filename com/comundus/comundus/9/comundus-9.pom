@@ -41,7 +41,7 @@
     </organization>
     <properties>
         <defaults.version>9</defaults.version><!-- This must be kept up to date with the project version manually -->
-        <sonar.coverage.jacoco.xmlReportPaths>**/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <build>
         <pluginManagement>
