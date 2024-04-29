@@ -4,7 +4,7 @@ maven2-repository
 To update the contents of this repository
 -----------------------------------------
 
-The following profile has to be defined in `~/.m2/settings.xml` or `pom.xml`
+The following profile has to be defined in `~/.m2/settings.xml` or `pom.xml` (Preferably in the project or a parent POM)
 
     	<profile>
     		<id>local-deploy</id>
@@ -22,13 +22,14 @@ The following profile has to be defined in `~/.m2/settings.xml` or `pom.xml`
     		</repositories>
     	</profile>
 
-Example. For:
+### Example 1. Updating a file
+In order to update a file with these characteristics:
 
     File: util-lib.jar
     GroupId: com.utils
     ArtifactId: util-lib
     Version: 1.0
-    Path to this repository: c:\maven2-repository    
+    Path to this repository: c:\maven2-repository
     
 Call:
 
@@ -36,6 +37,7 @@ Call:
 
 The file deploy-file-to-github.launch can be imported in the Eclipse IDE launch configurations to help with this procedure.
 
+### Example 2. Updating the artifact of a project
 To deploy the current project, call:
 
     mvn deploy -Drepo.path=c:/maven2-repository -DrepositoryId=internal.repo
